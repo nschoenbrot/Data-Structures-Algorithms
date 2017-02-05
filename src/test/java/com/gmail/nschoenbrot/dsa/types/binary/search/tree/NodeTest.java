@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Nelson Schoenbrot
@@ -27,6 +28,7 @@ public class NodeTest {
         node.insert(c);
         node.insert(d);
         final String expected = "59, 59, 60, 88, 100";
+
         assertEquals(expected, node.treeAsString());
     }
 
@@ -44,4 +46,42 @@ public class NodeTest {
         assertEquals(b, node.find(9871));
     }
 
+    @Test
+    public void remove_RightLeaf() {
+        final Node<Integer> a = new Node<>(25);
+        final Node<Integer> b = new Node<>(115);
+        node.insert(a);
+        node.insert(b);
+        final String expected = "25, 100";
+
+        node.remove(115);
+
+        assertEquals(expected, node.treeAsString());
+    }
+
+    @Test
+    public void remove_LeftLeaf() {
+        final Node<Integer> a = new Node<>(25);
+        final Node<Integer> b = new Node<>(115);
+        node.insert(a);
+        node.insert(b);
+        final String expected = "100, 115";
+
+        node.remove(25);
+
+        assertEquals(expected, node.treeAsString());
+    }
+
+    @Test
+    public void remove_RemovedLeaf() {
+        final Node<Integer> a = new Node<>(25);
+        final Node<Integer> b = new Node<>(115);
+        node.insert(a);
+        node.insert(b);
+        final int expected = 25;
+
+        final Node<Integer> removed = node.remove(25);
+
+        assertTrue(expected == removed.getData());
+    }
 }

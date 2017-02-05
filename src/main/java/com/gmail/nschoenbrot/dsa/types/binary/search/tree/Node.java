@@ -35,27 +35,33 @@ public class Node<T extends Comparable<T>> {
     }
 
     /**
-     * Get the node in a tree corresponding to the value.
+     * Get the node in a tree corresponding to the first occurrence of the value.
      *
      * @param value is equal to the data in the node to be returned.
      * @return the node with data equal to the value or a null.
      */
     public Node<T> find(T value) {
-        if (data.equals(value)) {
+        final int compare = data.compareTo(value);
+        if (compare == 0) {
             return this;
         }
         if (left == null && right == null) {
             return null;
         }
-        if (right != null && data.compareTo(value) < 0) {
+        if (right != null && compare < 0) {
             return right.find(value);
         }
-        if (left != null && data.compareTo(value) > 0) {
+        if (left != null && compare > 0) {
             return left.find(value);
         }
         return null;
     }
 
+    /**
+     * Get a csv version of the tree.
+     *
+     * @return the csv. Example: 1, 2, 3
+     */
     public String treeAsString() {
         if (left == null && right == null) {
             return data.toString();
@@ -69,7 +75,44 @@ public class Node<T extends Comparable<T>> {
         return left.treeAsString() + ", " + data.toString() + ", " + right.treeAsString();
     }
 
+    /**
+     * Attempts to remove the first occurrence of a node with data matching the value.
+     *
+     * @param value corresponds to the node to remove (the node with the data equal to the value).
+     * @return the deleted node with null left and right. Or null if no node was found.
+     */
+    public Node<T> remove(final T value) {
+        return remove(value, null, null);
+    }
+
+    private Node<T> remove(final T value, final Node<T> parent, final Boolean isRight) {
+        // TODO Remove non-leaves.
+        final int compare = data.compareTo(value);
+        Node<T> removed = null;
+        if (compare == 0 && left == null && right == null && parent != null && isRight != null) {
+            if (isRight) {
+                parent.setRight(null);
+            } else {
+                parent.setLeft(null);
+            }
+            return this;
+        } else if (compare < 0) {
+            removed = right.remove(value, this, true);
+        } else if (compare > 0) {
+            removed = left.remove(value, this, false);
+        }
+        return removed;
+    }
+
     public T getData() {
         return data;
+    }
+
+    private void setLeft(Node<T> left) {
+        this.left = left;
+    }
+
+    private void setRight(Node<T> right) {
+        this.right = right;
     }
 }
