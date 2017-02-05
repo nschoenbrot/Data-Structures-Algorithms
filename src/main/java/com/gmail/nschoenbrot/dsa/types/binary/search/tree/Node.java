@@ -35,6 +35,19 @@ public class Node<T extends Comparable<T>> {
     }
 
     /**
+     * Insert multiple nodes.
+     * Do not insert null or node with null data.
+     *
+     * @param nodes the nodes to insert.
+     */
+    @SafeVarargs
+    public final void insert(final Node<T>... nodes) {
+        for (final Node<T> node : nodes) {
+            insert(node);
+        }
+    }
+
+    /**
      * Get the node in a tree corresponding to the first occurrence of the value.
      *
      * @param value is equal to the data in the node to be returned.
@@ -86,14 +99,24 @@ public class Node<T extends Comparable<T>> {
     }
 
     private Node<T> remove(final T value, final Node<T> parent, final Boolean isRight) {
-        // TODO Remove non-leaves.
+        // TODO Remove nodes with two children.
         final int compare = data.compareTo(value);
         Node<T> removed = null;
-        if (compare == 0 && left == null && right == null && parent != null && isRight != null) {
+        if (compare == 0 && parent != null && isRight != null) {
             if (isRight) {
-                parent.setRight(null);
+                if (right != null)
+                    parent.setRight(right);
+                else if (left != null)
+                    parent.setRight(left);
+                else
+                    parent.setRight(null);
             } else {
-                parent.setLeft(null);
+                if (left != null)
+                    parent.setLeft(left);
+                else if (right != null)
+                    parent.setLeft(right);
+                else
+                    parent.setLeft(null);
             }
             return this;
         } else if (compare < 0) {
