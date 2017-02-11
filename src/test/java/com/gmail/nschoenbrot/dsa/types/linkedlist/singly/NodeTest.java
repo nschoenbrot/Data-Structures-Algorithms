@@ -3,7 +3,7 @@ package com.gmail.nschoenbrot.dsa.types.linkedlist.singly;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 /**
  * @author Nelson Schoenbrot
@@ -43,5 +43,23 @@ public class NodeTest {
         final Node<Integer> c = new Node<>(4);
         node.append(a, b, c);
         assertEquals("4, 3, 2, 1", node.reverse().listAsString());
+    }
+
+    @Test
+    public void isCyclical_True() throws Exception {
+        final Node<Integer> a = new Node<>(2);
+        final Node<Integer> b = new Node<>(3);
+        final Node<Integer> c = new Node<>(4);
+        node.append(a, b, c, a);
+        assertTrue(node.isCyclical());
+    }
+
+    @Test
+    public void isCyclical_False() throws Exception {
+        final Node<Integer> a = new Node<>(2);
+        final Node<Integer> b = new Node<>(3);
+        final Node<Integer> c = new Node<>(4);
+        node.append(a, b, c);
+        assertFalse(node.isCyclical());
     }
 }

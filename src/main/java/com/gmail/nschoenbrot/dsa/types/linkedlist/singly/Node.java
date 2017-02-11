@@ -1,5 +1,7 @@
 package com.gmail.nschoenbrot.dsa.types.linkedlist.singly;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Stack;
 
 /**
@@ -44,10 +46,8 @@ public class Node<T> {
      */
     public void append(final Node<T> node) {
         Node<T> lastNode = this;
-        Node<T> nextInList = next;
-        while (nextInList != null) {
+        for (Node<T> nextInList = next; nextInList != null; nextInList = nextInList.getNext()) {
             lastNode = nextInList;
-            nextInList = nextInList.getNext();
         }
         lastNode.setNext(node);
     }
@@ -72,10 +72,8 @@ public class Node<T> {
     public String listAsString() {
         final StringBuilder csv = new StringBuilder();
         csv.append(data);
-        Node<T> nextInList = next;
-        while (nextInList != null) {
+        for (Node<T> nextInList = next; nextInList != null; nextInList = nextInList.getNext()) {
             csv.append(", ").append(nextInList.getData());
-            nextInList = nextInList.getNext();
         }
         return csv.toString();
     }
@@ -87,12 +85,19 @@ public class Node<T> {
      */
     public Node<T> reverse() {
         final Stack<Node<T>> stack = new Stack<>();
-        Node<T> current = this;
-        while (current != null) {
+        for (Node<T> current = this; current != null; current = current.getNext()) {
             stack.push(current);
-            current = current.getNext();
         }
         return createLinkedListFromStack(stack);
+    }
+
+    public boolean isCyclical() {
+        final Set<Node<T>> set = new HashSet<>();
+        for (Node<T> current = this; current != null; current = current.getNext()) {
+            if (set.contains(current)) return true;
+            set.add(current);
+        }
+        return false;
     }
 
     private Node<T> createLinkedListFromStack(final Stack<Node<T>> stack) {
