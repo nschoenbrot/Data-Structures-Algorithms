@@ -1,5 +1,7 @@
 package com.gmail.nschoenbrot.dsa.types.linkedlist.singly;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Stack;
 
 /**
@@ -93,6 +95,15 @@ public class Node<T> {
             current = current.getNext();
         }
         return createLinkedListFromStack(stack);
+    }
+
+    public boolean isCyclical() {
+        final Set<Node<T>> set = new HashSet<>();
+        for (Node<T> current = this; current != null; current = current.getNext()) {
+            if (set.contains(current)) return true;
+            set.add(current);
+        }
+        return false;
     }
 
     private Node<T> createLinkedListFromStack(final Stack<Node<T>> stack) {
