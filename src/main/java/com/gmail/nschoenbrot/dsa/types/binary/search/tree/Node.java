@@ -1,5 +1,7 @@
 package com.gmail.nschoenbrot.dsa.types.binary.search.tree;
 
+import com.gmail.nschoenbrot.dsa.types.binary.search.tree.exception.NullInsertException;
+
 /**
  * A node in a binary search tree.
  *
@@ -16,11 +18,12 @@ public class Node<T extends Comparable<T>> {
 
     /**
      * Inserts a node into the tree.
-     * Do not insert null or node with null data.
+     * Do not insert null or node with null data, will cause cause exception.
      *
      * @param node the node to insert.
      */
     public void insert(final Node<T> node) {
+        if (node == null || node.getData() == null) throw new NullInsertException();
         if (data.compareTo(node.getData()) < 0) {
             if (right == null)
                 right = node;
@@ -36,7 +39,7 @@ public class Node<T extends Comparable<T>> {
 
     /**
      * Insert multiple nodes.
-     * Do not insert null or node with null data.
+     * Do not insert null or node with null data, will cause cause exception.
      *
      * @param nodes the nodes to insert.
      */

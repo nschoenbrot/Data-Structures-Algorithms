@@ -1,5 +1,6 @@
 package com.gmail.nschoenbrot.dsa.types.binary.search.tree;
 
+import com.gmail.nschoenbrot.dsa.types.binary.search.tree.exception.NullInsertException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,6 +28,18 @@ public class NodeTest {
         final String expected = "59, 59, 60, 88, 100";
 
         assertEquals(expected, node.treeAsString());
+    }
+
+    @Test(expected = NullInsertException.class)
+    @SuppressWarnings("unchecked")
+    public void insert_Null() throws Exception {
+        node.insert((Node) null);
+    }
+
+    @Test(expected = NullInsertException.class)
+    @SuppressWarnings("unchecked")
+    public void insert_NullData() throws Exception {
+        node.insert(new Node(null));
     }
 
     @Test
