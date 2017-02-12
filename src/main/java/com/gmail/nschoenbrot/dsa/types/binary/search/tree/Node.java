@@ -20,6 +20,19 @@ public class Node<T extends Comparable<T>> {
         return data;
     }
 
+    void setData(T data) {
+        this.data = data;
+    }
+
+    /**
+     * Check if tree is a binary search tree.
+     *
+     * @return if binary search tree true else false.
+     */
+    public boolean isBinarySearchTree() {
+        return isBinarySearchTree((T) -> 1, (T) -> -1);
+    }
+
     /**
      * Inserts a node into the tree.
      * Do not insert null or node with null data, will cause cause exception.
@@ -108,6 +121,21 @@ public class Node<T extends Comparable<T>> {
         if (data.equals(value)) removeNodeWithTwoChildren();
         else remove(value, null, false);
         return this;
+    }
+
+    private boolean isBinarySearchTree(final Comparable<T> max, final Comparable<T> min) {
+        if (left == null && right == null)
+            return isLegalValue(max, min);
+        else if (left == null)
+            return isLegalValue(max, min) && right.isBinarySearchTree(max, this.data);
+        else if (right == null)
+            return isLegalValue(max, min) && left.isBinarySearchTree(this.data, min);
+        else
+            return isLegalValue(max, min) && right.isBinarySearchTree(max, this.data) && left.isBinarySearchTree(this.data, min);
+    }
+
+    private boolean isLegalValue(final Comparable<T> max, final Comparable<T> min) {
+        return max.compareTo(data) >= 0 && min.compareTo(data) <= 0;
     }
 
     private void remove(final T value, final Node<T> parent, final boolean isRightOfParent) {
