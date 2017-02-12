@@ -188,6 +188,32 @@ public class NodeTest {
     }
 
     @Test
+    public void remove_RootWithTwoChildren() throws Exception {
+        final Node<Integer> a = new Node<>(92);
+        final Node<Integer> b = new Node<>(60);
+        final Node<Integer> c = new Node<>(93);
+        final Node<Integer> d = new Node<>(500);
+        final Node<Integer> e = new Node<>(400);
+        final Node<Integer> f = new Node<>(600);
+        node.insert(a, b, c, d, e, f);
+        final Node<Integer> root = node.remove(100);
+        assertEquals("60, 92, 93, 400, 500, 600", root.treeAsString());
+    }
+
+    @Test
+    public void remove_WithTwoChildren() throws Exception {
+        final Node<Integer> a = new Node<>(92);
+        final Node<Integer> b = new Node<>(60);
+        final Node<Integer> c = new Node<>(93);
+        final Node<Integer> d = new Node<>(500);
+        final Node<Integer> e = new Node<>(400);
+        final Node<Integer> f = new Node<>(600);
+        node.insert(a, b, c, d, e, f);
+        final Node<Integer> root = node.remove(500);
+        assertEquals("60, 92, 93, 100, 400, 600", root.treeAsString());
+    }
+
+    @Test
     public void findMin() throws Exception {
         final Node<Integer> a = new Node<>(92);
         final Node<Integer> b = new Node<>(118);
