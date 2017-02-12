@@ -96,6 +96,16 @@ public class Node<T extends Comparable<T>> {
     }
 
     /**
+     * Find the node with the lowest value in the tree.
+     *
+     * @return the min node.
+     */
+    public Node<T> findMin() {
+        if (left == null) return this;
+        return left.findMin();
+    }
+
+    /**
      * Attempts to remove the first occurrence of a node with data matching the value.
      *
      * @param value corresponds to the node to remove (the node with the data equal to the value).

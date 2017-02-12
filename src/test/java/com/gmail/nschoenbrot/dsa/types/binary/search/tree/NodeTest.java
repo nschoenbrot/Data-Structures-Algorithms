@@ -186,4 +186,19 @@ public class NodeTest {
         Node<Integer> root = node.remove(100);
         assertNull(root);
     }
+
+    @Test
+    public void findMin() throws Exception {
+        final Node<Integer> a = new Node<>(92);
+        final Node<Integer> b = new Node<>(118);
+        final Node<Integer> c = new Node<>(121);
+        final Node<Integer> d = new Node<>(119);
+        final Node<Integer> e = new Node<>(125);
+        final Node<Integer> f = new Node<>(-4);
+        final Node<Integer> g = new Node<>(93);
+        final Node<Integer> h = new Node<>(-3);
+        final Node<Integer> i = new Node<>(124);
+        node.insert(a, b, c, d, e, f, g, h, i);
+        assertEquals(f, node.findMin());
+    }
 }
