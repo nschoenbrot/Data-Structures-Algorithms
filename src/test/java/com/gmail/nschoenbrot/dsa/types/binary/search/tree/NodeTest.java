@@ -4,8 +4,8 @@ import com.gmail.nschoenbrot.dsa.types.binary.search.tree.exception.NullInsertEx
 import org.junit.Before;
 import org.junit.Test;
 
+import static junit.framework.TestCase.assertNull;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * @author Nelson Schoenbrot
@@ -54,6 +54,17 @@ public class NodeTest {
     }
 
     @Test
+    public void remove_RightLeafRootIsTheSame() {
+        final Node<Integer> a = new Node<>(25);
+        final Node<Integer> b = new Node<>(115);
+        node.insert(a, b);
+
+        final Node<Integer> root = node.remove(115);
+
+        assertEquals(node, root);
+    }
+
+    @Test
     public void remove_RightLeaf() {
         final Node<Integer> a = new Node<>(25);
         final Node<Integer> b = new Node<>(115);
@@ -75,18 +86,6 @@ public class NodeTest {
         node.remove(25);
 
         assertEquals(expected, node.treeAsString());
-    }
-
-    @Test
-    public void remove_RemovedLeaf() {
-        final Node<Integer> a = new Node<>(25);
-        final Node<Integer> b = new Node<>(115);
-        node.insert(a, b);
-        final int expected = 25;
-
-        final Node<Integer> removed = node.remove(25);
-
-        assertTrue(expected == removed.getData());
     }
 
     @Test
@@ -158,5 +157,74 @@ public class NodeTest {
         node.remove(-4);
 
         assertEquals(expected, node.treeAsString());
+    }
+
+    @Test
+    public void remove_RootWithOneRightChild() {
+        final Node<Integer> a = new Node<>(666);
+        node.insert(a);
+        final String expected = "666";
+
+        Node<Integer> root = node.remove(100);
+
+        assertEquals(expected, root.treeAsString());
+    }
+
+    @Test
+    public void remove_RootWithOneLeftChild() {
+        final Node<Integer> a = new Node<>(66);
+        node.insert(a);
+        final String expected = "66";
+
+        Node<Integer> root = node.remove(100);
+
+        assertEquals(expected, root.treeAsString());
+    }
+
+    @Test
+    public void remove_RootNoChild() {
+        Node<Integer> root = node.remove(100);
+        assertNull(root);
+    }
+
+    @Test
+    public void remove_RootWithTwoChildren() throws Exception {
+        final Node<Integer> a = new Node<>(92);
+        final Node<Integer> b = new Node<>(60);
+        final Node<Integer> c = new Node<>(93);
+        final Node<Integer> d = new Node<>(500);
+        final Node<Integer> e = new Node<>(400);
+        final Node<Integer> f = new Node<>(600);
+        node.insert(a, b, c, d, e, f);
+        final Node<Integer> root = node.remove(100);
+        assertEquals("60, 92, 93, 400, 500, 600", root.treeAsString());
+    }
+
+    @Test
+    public void remove_WithTwoChildren() throws Exception {
+        final Node<Integer> a = new Node<>(92);
+        final Node<Integer> b = new Node<>(60);
+        final Node<Integer> c = new Node<>(93);
+        final Node<Integer> d = new Node<>(500);
+        final Node<Integer> e = new Node<>(400);
+        final Node<Integer> f = new Node<>(600);
+        node.insert(a, b, c, d, e, f);
+        final Node<Integer> root = node.remove(500);
+        assertEquals("60, 92, 93, 100, 400, 600", root.treeAsString());
+    }
+
+    @Test
+    public void findMin() throws Exception {
+        final Node<Integer> a = new Node<>(92);
+        final Node<Integer> b = new Node<>(118);
+        final Node<Integer> c = new Node<>(121);
+        final Node<Integer> d = new Node<>(119);
+        final Node<Integer> e = new Node<>(125);
+        final Node<Integer> f = new Node<>(-4);
+        final Node<Integer> g = new Node<>(93);
+        final Node<Integer> h = new Node<>(-3);
+        final Node<Integer> i = new Node<>(124);
+        node.insert(a, b, c, d, e, f, g, h, i);
+        assertEquals(f, node.findMin());
     }
 }
