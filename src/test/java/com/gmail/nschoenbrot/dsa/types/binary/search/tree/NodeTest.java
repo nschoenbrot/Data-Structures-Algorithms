@@ -5,7 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertNull;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 /**
  * @author Nelson Schoenbrot
@@ -226,5 +226,52 @@ public class NodeTest {
         final Node<Integer> i = new Node<>(124);
         node.insert(a, b, c, d, e, f, g, h, i);
         assertEquals(f, node.findMin());
+    }
+
+    @Test
+    public void isBinarySearchTree_falseOnRight() throws Exception {
+        final Node<Integer> a = new Node<>(92);
+        final Node<Integer> b = new Node<>(118);
+        final Node<Integer> c = new Node<>(121);
+        final Node<Integer> d = new Node<>(119);
+        final Node<Integer> e = new Node<>(125);
+        final Node<Integer> f = new Node<>(-4);
+        final Node<Integer> g = new Node<>(93);
+        final Node<Integer> h = new Node<>(-3);
+        final Node<Integer> i = new Node<>(124);
+        node.insert(a, b, c, d, e, f, g, h, i);
+        e.setData(1);
+        assertFalse(node.isBinarySearchTree());
+    }
+
+    @Test
+    public void isBinarySearchTree_falseOnLeft() throws Exception {
+        final Node<Integer> a = new Node<>(92);
+        final Node<Integer> b = new Node<>(118);
+        final Node<Integer> c = new Node<>(121);
+        final Node<Integer> d = new Node<>(119);
+        final Node<Integer> e = new Node<>(125);
+        final Node<Integer> f = new Node<>(-4);
+        final Node<Integer> g = new Node<>(93);
+        final Node<Integer> h = new Node<>(-3);
+        final Node<Integer> i = new Node<>(124);
+        node.insert(a, b, c, d, e, f, g, h, i);
+        g.setData(101);
+        assertFalse(node.isBinarySearchTree());
+    }
+
+    @Test
+    public void isBinarySearchTree_true() throws Exception {
+        final Node<Integer> a = new Node<>(92);
+        final Node<Integer> b = new Node<>(118);
+        final Node<Integer> c = new Node<>(121);
+        final Node<Integer> d = new Node<>(119);
+        final Node<Integer> e = new Node<>(125);
+        final Node<Integer> f = new Node<>(-4);
+        final Node<Integer> g = new Node<>(93);
+        final Node<Integer> h = new Node<>(-3);
+        final Node<Integer> i = new Node<>(124);
+        node.insert(a, b, c, d, e, f, g, h, i);
+        assertTrue(node.isBinarySearchTree());
     }
 }
