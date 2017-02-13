@@ -37,4 +37,42 @@ public class Sort {
             merged.add(left.get(leftHead++));
         return merged;
     }
+
+    public static <T extends Comparable<T>> List<T> quickSort(final List<T> unsorted) {
+        if (unsorted == null)
+            return null;
+        final ArrayList<T> sorted = new ArrayList<>(unsorted);
+        quickSort(sorted, 0, unsorted.size());
+        return sorted;
+    }
+
+    private static <T extends Comparable<T>> void quickSort(final List<T> unsorted, int start, int end) {
+        final int size = end - start;
+        if (size < 3) return;
+        final List<T> toBeSorted = new ArrayList<>(unsorted);
+        final T pivot = toBeSorted.get(size / 2 + start);
+        int left = start;
+        int right = end - 1;
+        while (left < right) {
+            final T leftElement = unsorted.get(left);
+            final T rightElement = unsorted.get(right);
+            final boolean isLeftLessThanPivot = leftElement.compareTo(pivot) < 0;
+            final boolean isRightMoreThanPivot = rightElement.compareTo(pivot) > 0;
+            if (isLeftLessThanPivot && isRightMoreThanPivot) {
+                left++;
+                right--;
+            } else if (isLeftLessThanPivot) {
+                left++;
+            } else if (isRightMoreThanPivot) {
+                right--;
+            } else {
+                unsorted.set(left, rightElement);
+                unsorted.set(right, leftElement);
+                left++;
+                right--;
+            }
+        }
+        quickSort(unsorted, start, left + 1);
+        quickSort(unsorted, right, end);
+    }
 }
