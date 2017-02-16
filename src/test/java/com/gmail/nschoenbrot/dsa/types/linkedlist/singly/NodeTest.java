@@ -62,4 +62,22 @@ public class NodeTest {
         node.append(a, b, c);
         assertFalse(node.isCyclical());
     }
+
+    @Test
+    public void remove() throws Exception {
+        final Node<Integer> a = new Node<>(2);
+        final Node<Integer> b = new Node<>(3);
+        final Node<Integer> c = new Node<>(4);
+        node.append(a, b, c);
+        assertEquals("1, 2, 4", node.remove(3).listAsString());
+    }
+
+    @Test
+    public void remove_root() throws Exception {
+        final Node<Integer> a = new Node<>(2);
+        final Node<Integer> b = new Node<>(3);
+        final Node<Integer> c = new Node<>(4);
+        node.append(a, b, c);
+        assertEquals("2, 3, 4", node.remove(1).listAsString());
+    }
 }

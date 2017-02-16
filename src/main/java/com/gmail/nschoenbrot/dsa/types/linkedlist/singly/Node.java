@@ -112,4 +112,22 @@ public class Node<T> {
         }
         return linkedList;
     }
+
+    /**
+     * Remove a node corresponding to a node.
+     *
+     * @param value the value to remove.
+     * @return the head of the list.
+     */
+    public Node<T> remove(T value) {
+        Node<T> parent = null;
+        for (Node<T> current = this; current != null; current = current.getNext()) {
+            if (value.equals(current.getData()) && parent != null)
+                parent.setNext(current.getNext());
+            else if (value.equals(current.getData()))
+                return current.getNext();
+            parent = current;
+        }
+        return this;
+    }
 }
