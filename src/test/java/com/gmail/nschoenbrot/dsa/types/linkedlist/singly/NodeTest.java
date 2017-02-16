@@ -80,4 +80,40 @@ public class NodeTest {
         node.append(a, b, c);
         assertEquals("2, 3, 4", node.remove(1).listAsString());
     }
+
+    @Test
+    public void insert() throws Exception {
+        final Node<Integer> a = new Node<>(2);
+        final Node<Integer> b = new Node<>(3);
+        final Node<Integer> c = new Node<>(4);
+        node.append(a, b, c);
+        assertEquals("1, 11, 2, 3, 4", node.insert(1, new Node<>(11)).listAsString());
+    }
+
+    @Test
+    public void insert_front() throws Exception {
+        final Node<Integer> a = new Node<>(2);
+        final Node<Integer> b = new Node<>(3);
+        final Node<Integer> c = new Node<>(4);
+        node.append(a, b, c);
+        assertEquals("11, 1, 2, 3, 4", node.insert(0, new Node<>(11)).listAsString());
+    }
+
+    @Test
+    public void insert_end() throws Exception {
+        final Node<Integer> a = new Node<>(2);
+        final Node<Integer> b = new Node<>(3);
+        final Node<Integer> c = new Node<>(4);
+        node.append(a, b, c);
+        assertEquals("1, 2, 3, 11, 4", node.insert(3, new Node<>(11)).listAsString());
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void insert_outOfBounds() throws Exception {
+        final Node<Integer> a = new Node<>(2);
+        final Node<Integer> b = new Node<>(3);
+        final Node<Integer> c = new Node<>(4);
+        node.append(a, b, c);
+        node.insert(4, new Node<>(11));
+    }
 }
