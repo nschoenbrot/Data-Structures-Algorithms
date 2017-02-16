@@ -65,6 +65,32 @@ public class Node<T> {
     }
 
     /**
+     * Insert a node a specific index.
+     *
+     * @param index the index to insert at.
+     * @param node  the node to insert.
+     * @return the head of the list.
+     */
+    public Node<T> insert(int index, Node<T> node) {
+        int currentIndex = 0;
+        Node<T> parent = null;
+        for (Node<T> current = this; current != null; current = current.getNext()) {
+            if (index == currentIndex && parent == null) {
+                node.setNext(current);
+                return node;
+            }
+            if (index == currentIndex) {
+                node.setNext(current);
+                parent.setNext(node);
+                return this;
+            }
+            parent = current;
+            currentIndex++;
+        }
+        throw new IndexOutOfBoundsException();
+    }
+
+    /**
      * List to string.
      *
      * @return a CSV.
@@ -76,6 +102,24 @@ public class Node<T> {
             csv.append(", ").append(nextInList.getData());
         }
         return csv.toString();
+    }
+
+    /**
+     * Remove a node corresponding to a node.
+     *
+     * @param value the value to remove.
+     * @return the head of the list.
+     */
+    public Node<T> remove(T value) {
+        Node<T> parent = null;
+        for (Node<T> current = this; current != null; current = current.getNext()) {
+            if (value.equals(current.getData()) && parent != null)
+                parent.setNext(current.getNext());
+            else if (value.equals(current.getData()))
+                return current.getNext();
+            parent = current;
+        }
+        return this;
     }
 
     /**
